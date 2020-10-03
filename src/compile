@@ -1,2 +1,0 @@
-g++ Header/src/civetweb.o Header/src/CivetServer.o ServerTest.o -o SERVER -lcrypto -lssl -ldl -lrt -lpthread -lstdc++fs
-g++ Header/src/civetweb.o Header/src/CivetServer.o CodeGenerator.o LoginHandler.o GarbageCollector.o FormGenerator.o PDFCreator.o FileHandler.o ConsoleHandler.o FormHandler.o AdminCommunicationHandler.o AccountCommunicationHandler.o main.o -o RegistrationSystem -ldl -lrt -lcrypto -lssl -lpthread -lstdc++fs -lhpdf -Wl,-rpath -Wl,/usr/local/lib
