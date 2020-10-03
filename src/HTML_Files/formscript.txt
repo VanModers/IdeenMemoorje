@@ -1,0 +1,32 @@
+<script>
+function getName()
+{
+    var url = location.protocol+'//'+window.location.host+'/name';
+    var request = new XMLHttpRequest();
+    request.open('POST', url, true);
+    request.responseType = 'text/html';
+
+    request.onload = function() {
+        document.getElementById('name').value = "";
+
+        var data = request.response.split(".");
+        data[0] = data[0][0].toUpperCase() + data[0].slice(1);
+        document.getElementById('name').value = data[0];
+        for(var i = 1; i < data.length; i++) {
+            data[i] = data[i][0].toUpperCase() + data[i].slice(1);
+            document.getElementById('name').value += " " + data[i];
+        }
+    };
+    request.send();
+}
+
+window.onload = function () {
+    setTimeout(function() {
+
+        getName();
+
+    }, 500);
+}
+
+</script>
+
