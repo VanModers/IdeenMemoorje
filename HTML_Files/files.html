@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="main_page.css">
+</head>
+
+<body style="background-color:powderblue;">
+<script src="jquery.js"></script>
+<script>
+
+function httpGetFiles(ID)
+{
+    var url = location.protocol+"//"+window.location.host+"/get_file"+ID;
+    var request = new XMLHttpRequest();
+    request.open('GET', url, true);
+    request.responseType = 'text';
+    request.onload = function() {
+		if(request.response !== "End") {
+				container = $('#container');
+				$(container).append("<ul id='" + ID + "'><a>" + request.response + "</a><form method = 'post' action='/download_file" + ID + "'><button type='submit'>Download</button></form></ul>");
+				$(container).append("<ul id='" + ID + "'><a></a><form method = 'post' action='/delete_file" + ID + "'><button type='submit'>Delete</button></form></ul>");
+				$(container).append();
+				
+				//$('#row'+ID).append("<div class='name'>" + data[0] + "</div><div class='level'>" + data[1] + "</div>");
+				ID++;
+				httpGetFiles(ID);
+		}
+    };
+	request.send();
+}
+
+(function($){
+    $(function(){
+        httpGetFiles(0);
+    });
+})(jQuery);
+
+</script>
+  
+<h1 class="centered">C.E.P. Communication System - Files</h1>
+
+<form method="POST" action="/upload" enctype="multipart/form-data">
+  <input type="file" name="file">
+  <input type="submit" value="Upload">
+</form>
+
+<ul style="list-style-type:square;" id="container">
+</ul> 
+
+</form></body></html>
+<p /p>
+
+<form action="/admin_page.html" method="get">
+  <button type="submit">Return</button>
+</form>
+
+
+
+</body>
+</html> 

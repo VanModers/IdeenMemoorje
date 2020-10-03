@@ -1,0 +1,4 @@
+Bitte Bestätigen Sie Ihren Projektvorschlag
+Sind Sie sicher, dass Sie Ihren Projektvorschlag einsenden möchten? Sie können ihn danach nicht mehr ändern.
+Ja
+Abbrechen

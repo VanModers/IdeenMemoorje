@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" href="leaderboard.css">
+</head>
+
+<body style="background-color:powderblue;">
+
+<script src="jquery.js"></script>
+<script>
+
+function httpGetLeaderboard(ID)
+{
+    var url = location.protocol+"//"+window.location.host+"/get_device"+ID;
+    var request = new XMLHttpRequest();
+    request.open('GET', url, true);
+    request.responseType = 'text';
+    request.onload = function() {
+		if(request.response !== "End") {
+			var data = request.response.split("|");
+			if(data.length >= 2) {
+				container = $('#container');
+				$(container).append("<ul id='" + ID + "'><a>" + data[0] + "</a><form method = 'post' action='/change_device" + ID + "'><input type='text' name='authorization_level' id='question-form' placeholder='" + data[1] + "' /><input type='submit' value='Submit' id='btnName' /></form></ul>");
+				$(container).append("<ul id='" + ID + "'><a></a><form method = 'post' action='/delete_device" + ID + "'><button type='submit'>Delete</button></form></ul>");
+				$(container).append();
+				
+				//$('#row'+ID).append("<div class='name'>" + data[0] + "</div><div class='level'>" + data[1] + "</div>");
+			
+				ID++;
+				httpGetLeaderboard(ID);
+			}
+		}
+    };
+	request.send();
+}
+
+(function($){
+    $(function(){
+        httpGetLeaderboard(0);
+    });
+})(jQuery);
+
+</script>
+
+<h1 style="font-size:600%;">List of all accounts</h1>
+
+<ul style="list-style-type:square;" id="container">
+</ul>  	
+
+<form action="/admin_page.html" method="get">
+  <button type="submit">back</button>
+</form>
+
+
+
+</body>
+</html>

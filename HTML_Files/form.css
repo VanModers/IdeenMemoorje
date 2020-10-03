@@ -1,0 +1,10 @@
+.left {
+text-align: left;
+}
+.right {
+float:right;
+}
+#div1 {display:none}
+#checkbox5:checked + #div1 {display:block;}
+#div2 {display:none}
+#checkbox9:checked + #div2 {display:block;}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1 style="font-size:400%;">Registrierung</h1>
+<p style="font-size:200%;">Geben Sie hier bitte ihren gew&uuml;nschten Username und ihr Passwort ein. Das Passwort sollte so gew&auml;hlt werden, dass es m&ouml;glichst sicher ist.</p>
+
+<form method = "post" action="registration_page">
+  <div class="imgcontainer">
+    <img src="logo.jpg" width="50%" height="50%" alt="Logo" class="avatar">
+  </div>
+
+  <div class="container">
+    <label for="uname"><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="uname" required>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="psw" required>
+
+    <button type="submit">Login</button>
+  </div>
+<p><font color="red">Registration failed. Username already exists.</font></p>
+</form>
+
+</body>
+</html>

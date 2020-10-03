@@ -1,0 +1,113 @@
+<!DOCTYPE html><html>
+<head><meta http-equiv='content-type' content='text/html; charset=utf-8'><link rel='stylesheet' href='form.css'></head>
+<body style='background-color:yellowgreen;'>
+<h1>Projektwoche 2020 - Einsendeformular</h1>
+<form method = 'post' action='form'><br>
+<br>
+<span>Projekttitel:</span><br>
+<input type='text' placeholder='' name='var0' required><br>
+<span class='right'></span>
+<br>
+<span>Projektleitung:</span><br>
+<input type='text' placeholder='' id='name' name='var1' required><br>
+<span class='right'>Bei mehreren Personen, diese durch Kommata abtrennen</span>
+<br>
+<span>Projektbeschreibung + Besonderheiten (z. B. außerschulisches Umfeld/Material):</span><br>
+<textarea name='var2' rows='10' cols='30' maxlength='400' required ></textarea><br>
+<span class='right'></span>
+<br>
+<span>Projektkosten pro Teilnehmer(€):</span><br>
+<input type='number' name='var3' min='0' max='50' required><br>
+<span class='right'>Maximal 50 €</span>
+<br>
+<span>Gerichtet an</span><br>
+<input type='radio' name='var4' value='Anfänger' required>Anfänger<br>
+<input type='radio' name='var4' value='Fortgeschrittene' required>Fortgeschrittene<br>
+<input type='radio' name='var4' value='für Alle' required>für Alle<br>
+<span class='right'></span>
+<br>
+<span>Jahrgang beschränkt:</span><br>
+<input type='checkbox' name='var5' id='checkbox5' value='true'>
+<div id='div1'>
+<span class='right'></span>
+<br>
+<span>Konkrete Beschränkung:</span><br>
+<input type='checkbox' name='var6' value='5-6'>5-6<br>
+<input type='checkbox' name='var6' value='7-8'>7-8<br>
+<input type='checkbox' name='var6' value='9-10'>9-10<br>
+<input type='checkbox' name='var6' value='11-13'>11-13<br>
+<span class='right'></span>
+<br>
+</div>
+<br>
+<span>Raumwunsch:</span><br>
+<select name='var7'>
+<option value='Egal'>Egal</option>
+<option value='Altbau'>Altbau</option>
+<option value='Smartboard-Raum'>Smartboard-Raum</option>
+<option value='Theater-Fachraum'>Theater-Fachraum</option>
+<option value='Musik-Fachraum'>Musik-Fachraum</option>
+<option value='Sportstätte'>Sportstätte</option>
+<option value='Kunst-Fachraum'>Kunst-Fachraum</option>
+<option value='Physik-Fachraum'>Physik-Fachraum</option>
+<option value='Chemie-Fachraum'>Chemie-Fachraum</option>
+<option value='Biologie-Fachraum'>Biologie-Fachraum</option>
+<option value='PC-Raum'>PC-Raum</option>
+<option value='Außerschulischer Lernort (selbstständig zu organisieren)'>Außerschulischer Lernort (selbstständig zu organisieren)</option>
+</select>
+<span class='right'></span>
+<br>
+<span>Begründung Raumwahl:</span><br>
+<textarea name='var8' rows='10' cols='30' maxlength='200' ></textarea><br>
+<span class='right'></span>
+<br>
+<span>Teilnehmerzahl beschränkt (min. 15):</span><br>
+<input type='checkbox' name='var9' id='checkbox9' value='true'>
+<div id='div2'>
+<span class='right'></span>
+<br>
+<span>Teilnehmerzahl:</span><br>
+<input type='number' name='var10' min='15' max='100' ><br>
+<span class='right'>Minimal 15</span>
+<br>
+</div>
+<br>
+<span>Projektkernzeit</span><br>
+<input type='radio' name='var11' value='Vormittags' required>Vormittags<br>
+<input type='radio' name='var11' value='Nachmittags' required>Nachmittags<br>
+<br>
+<button type='submit'>Abschicken</button>
+</form>
+<script>
+function getName()
+{
+    var url = location.protocol+'//'+window.location.host+'/name';
+    var request = new XMLHttpRequest();
+    request.open('POST', url, true);
+    request.responseType = 'text/html';
+
+    request.onload = function() {
+        document.getElementById('name').value = "";
+
+        var data = request.response.split(".");
+        data[0] = data[0][0].toUpperCase() + data[0].slice(1);
+        document.getElementById('name').value = data[0];
+        for(var i = 1; i < data.length; i++) {
+            data[i] = data[i][0].toUpperCase() + data[i].slice(1);
+            document.getElementById('name').value += " " + data[i];
+        }
+    };
+    request.send();
+}
+
+window.onload = function () {
+    setTimeout(function() {
+
+        getName();
+
+    }, 500);
+}
+
+</script>
+
+</body></html>
