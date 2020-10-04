@@ -16,6 +16,9 @@ PDFCreator::PDFCreator(string path) {
 }
 
 string PDFCreator::generateTempPDFDocumentFromOptions(vector<string> options, vector<string> variables) {
+    /* options vector contains content of "Form.txt" */
+    /* variables vector contains data of the submission */
+    
     HPDF_Doc pdf = HPDF_New (error_handler, NULL);
     if (!pdf) {
         printf ("ERROR: cannot create pdf object.\n");
@@ -46,6 +49,7 @@ string PDFCreator::generateTempPDFDocumentFromOptions(vector<string> options, ve
 
     HPDF_UseUTFEncodings(pdf);
 
+    // font is loaded
     fontname = HPDF_LoadTTFontFromFile(pdf, "Fonts/AbhayaLibre-Regular.ttf", HPDF_TRUE);
     def_font = HPDF_GetFont (pdf, fontname,  "UTF-8");
     HPDF_Page_SetFontAndSize (page, def_font, 14);
@@ -62,7 +66,8 @@ string PDFCreator::generateTempPDFDocumentFromOptions(vector<string> options, ve
             if(!inCheckbox) {
 				if(options[optionsID-1] == "checkbox-display" && variables[i] == "false")
 					inCheckbox = true;
-					
+                
+                // when page is full, new page is created
                 if(YPos+30 >= height) {
                     HPDF_Page_EndText (page);
                     page = HPDF_AddPage (pdf);
@@ -85,6 +90,8 @@ string PDFCreator::generateTempPDFDocumentFromOptions(vector<string> options, ve
                 if(elements[0] != "")
                     HPDF_Page_TextOut (page, 60, height - YPos, (elements[0]+":").c_str());
 
+                /* making text fit inside page */
+                
                 int step = (width-90)/8;
                 int j = 0;
                 while(j < variables[i].size()) {
@@ -92,9 +99,13 @@ string PDFCreator::generateTempPDFDocumentFromOptions(vector<string> options, ve
                     if((len + j) > variables[i].size())
                         len = variables[i].size() - j;
 
+                    /* text gets cut in portions of len characters */
                     string temp = variables[i].substr(j, len);
+                    
+                    /* check for end of the paragraph */
                     size_t pos = temp.find("\r\n");
                     if(pos == string::npos) {
+                        /* if there is no paragraph end, the text is separated by spaces */
                         pos = temp.rfind(" ");
                         if(j+len < variables[i].size() && pos != string::npos && pos > 0) {
                             temp = temp.substr(0, pos);
@@ -102,16 +113,17 @@ string PDFCreator::generateTempPDFDocumentFromOptions(vector<string> options, ve
                         }
                     }
                     else {
-                        cout << "/r/n" << endl;
+                        /* text up to the end of the paragraph is copied */
                         temp = temp.substr(0, pos);
                         j += 2;
                     }
-                    cout << temp << endl;
+
+                    /* temp is saved */
                     HPDF_Page_TextOut (page, 60, height - YPos - sizeOfTextField, temp.c_str());
                     sizeOfTextField += 18;
                     j += temp.size();
+                    /* same process returns for next part of text */
                 }
-                //HPDF_Page_TextRect(page, 60, height - YPos-5, width-20, height - YPos-sizeOfTextField, variables[i].c_str(), HPDF_TALIGN_LEFT, NULL);
 
                 YPos += (sizeOfTextField+20);
             }
@@ -124,6 +136,7 @@ string PDFCreator::generateTempPDFDocumentFromOptions(vector<string> options, ve
         }
     }
 
+    // generate code for temporal storage
     gen = CodeGenerator(time(NULL), 10, "");
     std::string filename = gen.getCode();
     HPDF_SaveToFile (pdf, (PDFPath+filename+".pdf").c_str());
