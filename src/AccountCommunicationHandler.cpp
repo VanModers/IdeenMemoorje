@@ -38,7 +38,7 @@ bool AccountCommunicationHandler::handle_Get(struct mg_connection *nc, string IP
 				mg_send_file(nc, (cstrpath + "admin_page.html").c_str());
 			}
 			else {
-				mg_send_file(nc, (cstrpath + "main_page" + languageCode + ".html").c_str());
+				mg_send_file(nc, (cstrpath + "account_page.html").c_str());
 			}
 		}
 		else {
@@ -53,7 +53,7 @@ bool AccountCommunicationHandler::handle_Get(struct mg_connection *nc, string IP
 				mg_send_file(nc, (cstrpath + "admin_page.html").c_str());
 			}
 			else {
-				mg_send_file(nc, (cstrpath + "main_page" + languageCode + ".html").c_str());
+				mg_send_file(nc, (cstrpath + "account_page.html").c_str());
 			}
 		}
 		else if (auth->checkLoginCode(FormCode)) {
@@ -161,7 +161,7 @@ bool AccountCommunicationHandler::handle_Post(struct mg_connection *nc, string I
 			if (l.isAdmin(AccountCode))
 				mg_send_http_redirect(nc, "admin_page.html", 303);
 			else
-				mg_send_http_redirect(nc, "main_page.html", 303);
+				mg_send_http_redirect(nc, "account_page.html", 303);
 		}
 		else {
 			mg_send_http_redirect(nc, "new_password_failed.html", 303);

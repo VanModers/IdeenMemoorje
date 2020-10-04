@@ -293,6 +293,7 @@ int main(int argc, char** argv) {
     server.addHandler("/index", h_ac);
     server.addHandler("/user_login_failed_password", h_ac);
     server.addHandler("/admin_page.html$", h_ac);
+    server.addHandler("/account_page.html$", h_ac);
     server.addHandler("/main_page", h_ac);
     server.addHandler("/register.html$", h_ac);
     server.addHandler("/new_password.html$", h_ac);
