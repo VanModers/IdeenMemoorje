@@ -1,5 +1,5 @@
 #include "GarbageCollector.h"
-#define SEPERATOR '$'
+static string SEPARATOR = "$";
 
 class FormGenerator {
 	public:

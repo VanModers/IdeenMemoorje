@@ -138,11 +138,11 @@ void FormHandler::handleConfirmForm(struct mg_connection *nc, int id) {
     if(variableData[id].size() > 0) {
         data = "\"" + handleQuotationMarks(variableData[id][0]);
         for(int i = 1; i < variableData[id].size(); i++) {
-            data += "\"" + to_string(SEPERATOR) + "\"" + handleQuotationMarks(variableData[id][i]);
+            data += "\"" + SEPARATOR + "\"" + handleQuotationMarks(variableData[id][i]);
         }
     }
     cout << data << endl;
-    data += "\"$" + AccountEmailAddresses[id];
+    data += "\"" + SEPARATOR + AccountEmailAddresses[id];
     allVariableData.push_back(data);
 
     if(JUST_ONE_TRY) {
