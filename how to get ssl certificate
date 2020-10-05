@@ -1,3 +1,5 @@
 1. Install certbot
-2. Run:
-	sudo certbot certonly --webroot -w /home/pi/Desktop/EventRegistrationSystem/HTML_Files -d projektwoche.ddns.net -d projektwoche.ddns.net
+2. Run IdeenMemoorje with HTTP only:
+	sudo ./IdeenMemoorje 10 1
+3. Run certbot
+	sudo certbot certonly --webroot -w /path/to/IdeenMemoorje/HTML_Files -d URL -d URL
