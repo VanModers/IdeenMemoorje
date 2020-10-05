@@ -37,6 +37,7 @@ static int is_equal(string *s1, string *s2) {
     return s1->size() == s2->size() && memcmp(s1, s2, s2->size()) == 0;
 }
 
+/* taken from https://github.com/civetweb/civetweb/blob/master/examples/embedded_c/embedded_c.c */
 DH *
 get_dh2236()
 {
@@ -86,6 +87,7 @@ get_dh2236()
     return (dh);
 }
 
+/* taken from https://github.com/civetweb/civetweb/blob/master/examples/embedded_c/embedded_c.c */
 int
 init_ssl(void *ssl_ctx, void *user_data)
 {
