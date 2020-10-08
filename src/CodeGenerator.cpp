@@ -10,10 +10,10 @@ CodeGenerator::CodeGenerator(int seed, int length, string path) {
 
 void CodeGenerator::generateCode(int seed, int length) {
 	// Generating new code	
-    int i = 0;
+    int o = 0;
     bool newCode = false;
     while(!newCode) {
-        srand (seed+i); // Initialising random function with seed
+        srand (seed+o); // Initialising random function with seed
         CodeGenerator::code = "";
         
         for (int i = 0; i < length; i++) {  // Generating pseudorandom code of specific length
@@ -34,7 +34,7 @@ void CodeGenerator::generateCode(int seed, int length) {
                 j = usedCodes.size();
             }
         }
-        i++;
+        o++;
     }
     usedCodes.push_back(CodeGenerator::code);
     if(usedCodes.size() > 200)
