@@ -9,17 +9,14 @@ CodeGenerator::CodeGenerator(int seed, int length, string path) {
 }
 
 void CodeGenerator::generateCode(int seed, int length) {
-	// Generating new code
-	
+	// Generating new code	
     int i = 0;
     bool newCode = false;
     while(!newCode) {
-		// Initialising random function with seed
-        srand (seed+i);
+        srand (seed+i); // Initialising random function with seed
         CodeGenerator::code = "";
         
-        // Generating pseudorandom code of specific length
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < length; i++) {  // Generating pseudorandom code of specific length
             char symbol;
             int symbolID = rand() % 36;
             if(symbolID < 10)
