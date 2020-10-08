@@ -1,26 +1,27 @@
 #include "Header/FormHandler.h"
 
 string handleQuotationMarks(string str) {
-	int length = str.length();
-	for(int i = 0; i < length; i++) {
-		if(str.at(i) == '"') {
-			str.insert(i,"\"");
-			length = str.length();
-			i++;
-		}
-	}
-	return str;
+    int length = str.length();
+    for(int i = 0; i < length; i++) {
+        if(str.at(i) == '"') {
+            str.insert(i,"\"");
+            length = str.length();
+            i++;
+        }
+    }
+    return str;
 }
 
 string toLowerCase(string str) {
-	string out;
-	for(int i = 0; i < str.length(); i++) {
-		out += tolower(str.at(i));
-	}
-	return out;
+    string out;
+    for(int i = 0; i < str.length(); i++) {
+        out += tolower(str.at(i));
+    }
+    return out;
 }
 
 void FormHandler::saveInSavefile() {
+    // saves data of submitted forms
     ofstream outfile(savefilePath);
     for(int i = 0; i < allVariableData.size(); i++) {
         outfile << allVariableData[i] << endl;
@@ -38,26 +39,26 @@ bool FormHandler::checkEmail(struct mg_connection *nc) {
 
     char param1[1024];
 
-	// checks if email is correct
+    // checks if email is correct
     mg_get_var(post_data, post_data_len, "email", param1, sizeof(param1));
     string inputEmail = toLowerCase(string(param1));
     std::size_t pos = inputEmail.find("@");
 
     if(pos == string::npos)
-		inputEmail += "@ulricianum-aurich.de";
+        inputEmail += "@ulricianum-aurich.de";
 
-        for(int i = 0; i < EmailAddresses.size(); i++) {
-            if(EmailAddresses[i] == inputEmail) {
-                AccountEmailAddresses.push_back(EmailAddresses[i]);
-                return true;
-            }
+    for(int i = 0; i < EmailAddresses.size(); i++) {
+        if(EmailAddresses[i] == inputEmail) {
+            AccountEmailAddresses.push_back(EmailAddresses[i]);
+            return true;
         }
+    }
 
     return false;
 }
 
 void FormHandler::deleteEmail(string emailAddress) {
-	// deletes email from memory
+    // deletes email from memory
     for(int i = 0; i < EmailAddresses.size(); i++) {
         if(EmailAddresses[i] == emailAddress) {
             EmailAddresses.erase(EmailAddresses.begin() + i);
@@ -145,6 +146,7 @@ void FormHandler::handleConfirmForm(struct mg_connection *nc, int id) {
     data += "\"" + SEPARATOR + AccountEmailAddresses[id];
     allVariableData.push_back(data);
 
+    // JUST_ONE_TRY is true when every user can also submit a form once
     if(JUST_ONE_TRY) {
         inactiveAccountIDs.push_back(AccountIDs[id]);
         oldAccountEmailAddresses.push_back(AccountEmailAddresses[id]);
@@ -231,6 +233,7 @@ bool FormHandler::handleGet(CivetServer *server, struct mg_connection *nc) {
         char FormCode[48];
         mg_get_cookie(cookie, "formcode", FormCode, sizeof(FormCode));
 
+        // getting language code of user from cookie
         char LanguageCode[48];
         mg_get_cookie(cookie, "lang", LanguageCode, sizeof(LanguageCode));
         string languageCode = string(LanguageCode);
@@ -270,6 +273,7 @@ bool FormHandler::handleGet(CivetServer *server, struct mg_connection *nc) {
         else if(has_prefix(&localUri, &language_prefix)) {
             string lang = getVariable(localUri, "2lang", '.');
             languageCode = lang;
+            // standard language code is German
             if(languageCode == "ger")
                 languageCode = "";
             if (auth.checkLoginCode(FormCode))
@@ -305,6 +309,7 @@ bool FormHandler::handlePost(CivetServer *server, struct mg_connection *nc) {
         char FormCode[48];
         mg_get_cookie(cookie, "formcode", FormCode, sizeof(FormCode));
 
+        // getting language code of user from cookie
         char LanguageCode[48];
         mg_get_cookie(cookie, "lang", LanguageCode, sizeof(LanguageCode));
         string languageCode = string(LanguageCode);
@@ -361,12 +366,13 @@ bool FormHandler::handlePost(CivetServer *server, struct mg_connection *nc) {
                 mg_send_http_redirect(nc, "index.html", 303);
             }
         }
+        /* function responsible for automated insertion of user name into form */
         else if(localUri == get_name_prefix && id > -1) {
             std::size_t pos = AccountEmailAddresses[id].find("@");
             string send = AccountEmailAddresses[id].substr(0,pos);
             if(variableData[id].size() > 0 && form.namefieldPos > -1)
-				send = variableData[id][form.namefieldPos];
-            
+                send = variableData[id][form.namefieldPos];
+
             mg_send_http_ok(nc, "Content-Type: text/html; charset=utf-8", strlen(send.c_str()));
             mg_printf(nc, send.c_str());
         }

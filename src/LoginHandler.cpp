@@ -35,7 +35,7 @@ LoginHandler::LoginHandler(string loginpath) {
     path = loginpath + "/LOGINDATA.data";
     cout << "Path: " << path << "\n";
     cout << "Start LoginHandler\n";
-    
+
     // if there is no password file, one is created
     struct stat buffer;
     if (stat(path.c_str(), &buffer) != 0) {
@@ -56,7 +56,7 @@ LoginHandler::LoginHandler(string loginpath) {
         }
     }
     else {
-		// otherwise the existing password file is loaded in
+        // otherwise the existing password file is loaded in
         string str;
         ifstream ifs(path, ifstream::in);
         cout << "File opened\n";
@@ -73,7 +73,7 @@ LoginHandler::LoginHandler(string loginpath) {
 // 3. line: salt for password
 // 4. line: authorisation level of user
 
-// Function for password checking 
+// Function for password checking
 bool LoginHandler::checkPassword(string uname, string password) {
     for (int i = 0; i < int(LoginData.size()); i += 4) {
         if (uname == LoginData[i] && pwdToHash(password.c_str(), LoginData[i + 2]) == LoginData[i + 1])
@@ -229,8 +229,8 @@ bool LoginHandler::removeAccount(int id) {
         LoginData.erase (LoginData.begin()+id*4 + 1);
         LoginData.erase (LoginData.begin()+id*4);
         Update();
-		
-		cout << "Ready" << endl;
+
+        cout << "Ready" << endl;
         return true;
     }
     cout << "Deleting account called '" << getAccountName(id) << "' failed!" << endl;
@@ -264,15 +264,15 @@ bool LoginHandler::newPassword(int id, string password) {
 // returns account id based on name
 int LoginHandler::getAccountID(string name) {
     for(int i = 0; i < LoginData.size(); i += 4) {
-		if(LoginData[i] == name)
-			return i/4;
-	}
+        if(LoginData[i] == name)
+            return i/4;
+    }
     return -1;
 }
 
 // return account name based on authorisation code
 string LoginHandler::getAccountName(string code) {
-	for (int i = 0; i < AccountCodes.size(); i++) {
+    for (int i = 0; i < AccountCodes.size(); i++) {
         if (AccountCodes[i][0] == code) {
             cout << "User: " << AccountCodes[i][1] << endl;
             return AccountCodes[i][1];
@@ -293,7 +293,7 @@ int LoginHandler::getAccountAuthorizationLevel(int id) {
 }
 
 string LoginHandler::getAccountName(int id) {
-	cout << id << endl;
+    cout << id << endl;
     if(id >= 0 && id * 4 < LoginData.size())
         return LoginData[4 * id];
     else

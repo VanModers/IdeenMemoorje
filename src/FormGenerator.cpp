@@ -224,6 +224,7 @@ void FormGenerator::generateHTMLCheckFile(string path, std::vector<string> varia
 	}
 
 	if (form_options.size() > 0) {
+		// writing head of html file
 		ofstream outfile(path);
 		outfile << "<!DOCTYPE html><html>" << endl;
 		outfile << "<head><meta http-equiv='content-type' content='text/html; charset=utf-8'><link rel='stylesheet' href='leaderboard.css'></head>" << endl;
@@ -231,8 +232,10 @@ void FormGenerator::generateHTMLCheckFile(string path, std::vector<string> varia
 		outfile << "<h1>" << check_options[0] << "</h1>" << endl;
 		outfile << "<h1>" << form_options[0] << "</h1>" << endl;
 
+		// loping through all elements defined in options array
 		int variableID = 0;
 		for (int i = 1; i < form_options.size() - 1; i += 2) {
+			// translation into html code:
 			if (!inCheckbox) {
 				outfile << "<br>" << endl;
 				if (form_options[i] == "inputfield" || form_options[i] == "namefield") {
@@ -287,7 +290,6 @@ void FormGenerator::generateHTMLCheckFile(string path, std::vector<string> varia
 		outfile << "<p>" << check_options[1] << "</p>" << endl;
 		outfile << "<form action='/confirm' method='post'><button type='submit'>" << check_options[2] << "</button></form>" << endl;
 		outfile << "<form action=\'javascript:history.go(-1)\' method='get'><button type='submit'>" << check_options[3] << "</button></form>" << endl;
-		//outfile << "<a class='button' href=\'javascript:history.go(-1)\'>Cancel</a>" << endl;
 		outfile << "</body></html>" << endl;
 		outfile.close();
 	}

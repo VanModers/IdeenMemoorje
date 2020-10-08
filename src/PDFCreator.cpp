@@ -18,7 +18,7 @@ PDFCreator::PDFCreator(string path) {
 string PDFCreator::generateTempPDFDocumentFromOptions(vector<string> options, vector<string> variables) {
     /* options vector contains content of "Form.txt" */
     /* variables vector contains data of the submission */
-    
+
     HPDF_Doc pdf = HPDF_New (error_handler, NULL);
     if (!pdf) {
         printf ("ERROR: cannot create pdf object.\n");
@@ -64,9 +64,9 @@ string PDFCreator::generateTempPDFDocumentFromOptions(vector<string> options, ve
     for(int i = 0; i < variables.size(); i++) {
         if(options[optionsID-1] != "checkbox-end") {
             if(!inCheckbox) {
-				if(options[optionsID-1] == "checkbox-display" && variables[i] == "false")
-					inCheckbox = true;
-                
+                if(options[optionsID-1] == "checkbox-display" && variables[i] == "false")
+                    inCheckbox = true;
+
                 // when page is full, new page is created
                 if(YPos+30 >= height) {
                     HPDF_Page_EndText (page);
@@ -91,7 +91,7 @@ string PDFCreator::generateTempPDFDocumentFromOptions(vector<string> options, ve
                     HPDF_Page_TextOut (page, 60, height - YPos, (elements[0]+":").c_str());
 
                 /* making text fit inside page */
-                
+
                 int step = (width-90)/8;
                 int j = 0;
                 while(j < variables[i].size()) {
@@ -101,7 +101,7 @@ string PDFCreator::generateTempPDFDocumentFromOptions(vector<string> options, ve
 
                     /* text gets cut in portions of len characters */
                     string temp = variables[i].substr(j, len);
-                    
+
                     /* check for end of the paragraph */
                     size_t pos = temp.find("\r\n");
                     if(pos == string::npos) {

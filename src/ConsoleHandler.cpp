@@ -9,24 +9,26 @@ ConsoleHandler::ConsoleHandler(string pathToSavefile, string pathToAddresses, st
     output = "";
 }
 
+// function to split string
 vector<string> splitString(string str, char seperator) {
-	vector<string> elements;
-	string element;
-	for (int i = 0; i < str.length(); i++) {
-		if (str.at(i) == seperator) {
-			elements.push_back(element);
-			element = "";
-			while(i+1 < str.length() && str.at(i+1) == ' ')
-				i++;
-		}
-		else {
-			element += str.at(i);
-		}
-	}
-	elements.push_back(element);
-	return elements;
+    vector<string> elements;
+    string element;
+    for (int i = 0; i < str.length(); i++) {
+        if (str.at(i) == seperator) {
+            elements.push_back(element);
+            element = "";
+            while(i+1 < str.length() && str.at(i+1) == ' ')
+                i++;
+        }
+        else {
+            element += str.at(i);
+        }
+    }
+    elements.push_back(element);
+    return elements;
 }
 
+// function for processing commands
 void ConsoleHandler::processRequest(string request, FormGenerator gen) {
     if(request == "countSubmissions") {
         ifstream ifs(savefilePath, ifstream::in);
@@ -35,16 +37,16 @@ void ConsoleHandler::processRequest(string request, FormGenerator gen) {
         std::string str;
         bool openQuotation = false;
         while (getline(ifs, str)) {
-			for(int i = 0; i < str.length(); i++) {
-				if(str.at(i) == '"') {
-					if(openQuotation)
-						openQuotation = false;
-					else
-						openQuotation = true;
-				}
-			}
-			if(openQuotation == false)
-				submissions++;
+            for(int i = 0; i < str.length(); i++) {
+                if(str.at(i) == '"') {
+                    if(openQuotation)
+                        openQuotation = false;
+                    else
+                        openQuotation = true;
+                }
+            }
+            if(openQuotation == false)
+                submissions++;
         }
         output = to_string(submissions);
     }
@@ -59,32 +61,32 @@ void ConsoleHandler::processRequest(string request, FormGenerator gen) {
         output = to_string(addresses);
     }
     else if(request == "saveNames") {
-		ofstream outfile("EventData/names.txt");
-		
-		cout << gen.NumberOfVariables << endl;
-		cout << gen.namefieldPos << endl;
-		
+        ofstream outfile("EventData/names.txt");
+
+        cout << gen.NumberOfVariables << endl;
+        cout << gen.namefieldPos << endl;
+
         ifstream ifs(savefilePath, ifstream::in);
         std::string str;
         int variableID = 0;
         string name = "";
         while (getline(ifs, str)) {
-			for(int i = 0; i < str.length(); i++) {
-				if(str.at(i) == SEPERATOR) {
-					variableID++;
-					i++;
-				}
-				else if(variableID == gen.namefieldPos && str.at(i) != '\"') {
-					name += str.at(i);
-				}
-			}
-			if(variableID == gen.NumberOfVariables) {
-				vector<string> names = splitString(name, ',');
-				for(int i = 0; i < names.size(); i++)
-					outfile << names[i] << endl;
-				variableID = 0;
-				name = "";
-			}
+            for(int i = 0; i < str.length(); i++) {
+                if(str.at(i) == SEPARATOR.at(0)) {
+                    variableID++;
+                    i++;
+                }
+                else if(variableID == gen.namefieldPos && str.at(i) != '\"') {
+                    name += str.at(i);
+                }
+            }
+            if(variableID == gen.NumberOfVariables) {
+                vector<string> names = splitString(name, ',');
+                for(int i = 0; i < names.size(); i++)
+                    outfile << names[i] << endl;
+                variableID = 0;
+                name = "";
+            }
         }
         outfile.close();
         output = "Finished successfully";
